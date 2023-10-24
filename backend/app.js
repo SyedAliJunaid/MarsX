@@ -6,20 +6,28 @@ const port = require("./config/ports");
 const ingestRoute = require('./routes/ingest-route');
 const authRoute = require('./routes/auth-route'); 
 const HttpError = require('./models/http-error');
+const cors = require('cors');
 
 const app = express();
+const corsOptions = {
+  origin: 'http://localhost:3000', // Replace with the origin of your frontend
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+app.use(cors(corsOptions));
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//   );
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+//   next();
+// });
 
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
 
-  next();
-});
 // Injest Route
 app.use('/api', ingestRoute);
 

@@ -54,7 +54,11 @@ const ingestData = async (req, res) => {
     }
 
     // Verifying the token
-    const decodedToken = jwt.verify(token, 'your-secret-key');
+    const decodedToken = jwt.verify(token, key.secretKey);
+    
+    console.log("got the token Token" + token)
+    
+    
 
     // the dataset provided link hosting server is down at my side. i tried to access the complete json but couldn't do so. 
     //anyways i have provided complete code how to access the json from CDC. the code is commented below
@@ -122,7 +126,7 @@ const getData = async (req, res) => {
     const data = await Data.find(filter);
    
 
-    res.status(200).json({ success: true, data });
+    res.status(200).json({ data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
